@@ -3,6 +3,7 @@
  */
 package api.rest.subtitle.repository.dao;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Assert;
@@ -37,8 +38,21 @@ public class SubtitleDaoTest {
 	public void downloadSubtitle(){
 		Integer subtitleFileID=1955843243;
 		List<SubtitleFile> info = subtitleDao.downloadSubtitle(subtitleFileID);
+		SubtitleFile file = info.get(0);
+		
 		Assert.assertTrue("Info must be not null", info!=null);
 	}
+	@Test
+	public void download(){
+		Integer subtitleFileID=1955843243;
+		String fileName="Final.Space.S01E01.Chapter 1.1080p.WEB-DL.H.264-PUFO.HI.srt";
+		
+		InputStream is = subtitleDao.downloadFile(subtitleFileID, fileName);
+		
+		
+		Assert.assertTrue("InputStream must be not null", is!=null);
+	}
+	
 	
 
 	

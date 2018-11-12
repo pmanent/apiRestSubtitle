@@ -3,11 +3,17 @@
  */
 package api.rest.subtitle.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,6 +69,26 @@ public class SubtitleController {
 			
 		}
 		return GsonUtils.toJson(contentFile);
+	}
+	
+	@RequestMapping(value = "/donwloadFile/{id}", method = RequestMethod.GET)
+	public void donwloadFile(
+	        @PathVariable("id") String subtitleFileID,
+	        @RequestParam Map<String, String> allRequestParams,
+	        HttpServletResponse response) throws IOException{
+		
+		String subtitleFileName = allRequestParams.get("fileName").replaceAll(" ", "_");
+		
+
+        InputStream inputStream = subtitleDAO.downloadFile(Integer.valueOf(subtitleFileID), subtitleFileName);
+        
+        response.setContentType("application/force-download");
+        response.setHeader("Content-Disposition", "attachment; filename="+subtitleFileName); 
+        
+        IOUtils.copy(inputStream, response.getOutputStream());
+        
+        response.flushBuffer();
+        inputStream.close();		
 	}
 
 }

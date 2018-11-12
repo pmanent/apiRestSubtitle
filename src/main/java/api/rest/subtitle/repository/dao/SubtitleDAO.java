@@ -1,5 +1,6 @@
 package api.rest.subtitle.repository.dao;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.github.wtekiela.opensub4j.response.SubtitleInfo;
 
 import api.rest.subtitle.SubtitleProperties;
 import api.rest.subtitle.command.DownloadSubtitleCommand;
+import api.rest.subtitle.command.DownloadSubtitleFileCommand;
 import api.rest.subtitle.command.SearchSubtitleCommand;
 import api.rest.subtitle.consumer.Consumer;
 import api.rest.subtitle.consumer.SubtitleConsumer;
@@ -57,5 +59,19 @@ public class SubtitleDAO {
 		info = (List<SubtitleFile>)subtitleConsumer.consume();
 		
 		return info;
+	}
+	
+	public InputStream downloadFile(Integer subtitleFileID, String fileName) {
+		
+		DownloadSubtitleFileCommand command = new DownloadSubtitleFileCommand(username,password,lang,userAgent);
+		
+		command.setSubtitleFileID(subtitleFileID);
+		command.setFileName(fileName);
+		
+		Consumer subtitleConsumer=new SubtitleConsumer(command);
+		
+		InputStream fileInputStream =  (InputStream)subtitleConsumer.consume();
+		
+		return fileInputStream;
 	}
 }
