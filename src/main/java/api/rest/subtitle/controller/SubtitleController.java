@@ -31,8 +31,9 @@ import api.rest.subtitle.utils.GsonUtils;
  *
  */
 
-@CrossOrigin(origins = "*")
+
 @RestController
+@CrossOrigin(origins = "*")
 public class SubtitleController {
 	@Autowired
 	private SubtitleDAO subtitleDAO;
