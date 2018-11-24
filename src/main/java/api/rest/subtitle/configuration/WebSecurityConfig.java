@@ -31,16 +31,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-        .addFilterBefore(myCorsFilter(), 
-                       SessionManagementFilter.class)
-	    .cors()
-	    ;
-		/*
-	    http.authorizeRequests().anyRequest().fullyAuthenticated()
-	    .and().csrf().disable()
-	    ;*/
+	        .addFilterBefore(myCorsFilter(), 
+	                       SessionManagementFilter.class)
+		    .cors();
 	    
-		
+
+	    
+	    http
+	    	.httpBasic()
+	    .and()
+	    	.authorizeRequests()
+	    		.anyRequest().authenticated();
 	}
 	
 	@Bean

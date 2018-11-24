@@ -33,7 +33,7 @@ import api.rest.subtitle.utils.GsonUtils;
 
 
 @RestController
-@CrossOrigin(origins = "*")
+
 public class SubtitleController {
 	@Autowired
 	private SubtitleDAO subtitleDAO;
@@ -44,6 +44,7 @@ public class SubtitleController {
 	}
 
 	@RequestMapping(value = "/searchSubtitles", method = RequestMethod.GET, produces = "application/json")
+	@CrossOrigin(origins="*", maxAge=3600)
 	public String searchSubtitles(@RequestParam Map<String, String> allRequestParams){
 		
 		String selectedQuery = allRequestParams.get("query");
@@ -55,6 +56,7 @@ public class SubtitleController {
 	}
 	
 	@RequestMapping(value = "/donwloadSubtitle", method = RequestMethod.GET, produces = "application/json")
+	@CrossOrigin(origins="*", maxAge=3600)
 	public String donwloadSubtitle(@RequestParam Map<String, String> allRequestParams){
 		
 		String subtitleFileID = allRequestParams.get("id");
